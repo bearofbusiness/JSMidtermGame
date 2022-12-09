@@ -161,7 +161,8 @@
             cellleft = tcell(tx - 1, ty),
             celldown = tcell(tx, ty + 1),
             celldiag = tcell(tx + 1, ty + 1),
-            slidingL = entity.left && cellleft;
+            slidingL = entity.left  && cellleft,
+            slidingR = entity.right && cellright;
 
         if (entity.left) {//move left
             entity.ddx = entity.ddx - accel;
@@ -187,12 +188,12 @@
         if (entity.jump && !entity.jumping && !falling) {
             entity.ddy = entity.ddy - entity.impulse; // an instant big force impulse
             entity.jumping = true;
-        } else if (entity.jump && falling && cellright && !entity.wallJumping && entity.jumping && sliding) {//on right wall
+        } else if (entity.jump && falling && cellright && !entity.wallJumping && entity.jumping && slidingR) {//on right wall
             entity.ddy = /*entity.ddy*/ - entity.impulse;
             entity.ddx = /*entity.ddx*/ - entity.impulse;
             entity.wallJumping = true;
             entity.jumping = true;
-        } else if (entity.jump && falling && cellleft  && !entity.wallJumping && entity.jumping && sliding) {//on left wall
+        } else if (entity.jump && falling && cellleft  && !entity.wallJumping && entity.jumping && slidingL) {//on left wall
             entity.ddy = /*entity.ddy*/ - entity.impulse;
             entity.ddx = /*entity.ddx +*/ entity.impulse;
             entity.wallJumping = true;
