@@ -55,7 +55,7 @@
         MAXDY = 60,      // default max vertical speed   (60 tiles per second)
         ACCEL = 1 / 4,     // default take 1/2 second to reach maxdx (horizontal acceleration)
         FRICTION = 1 / 6,     // default take 1/6 second to stop from maxdx (horizontal friction)
-        IMPULSE = 1500,    // default player jump impulse
+        IMPULSE = 25,    // default player jump impulse
         COLOR = { BLACK: '#000000', YELLOW: '#ECD078', BRICK: '#D95B43', PINK: '#C02942', PURPLE: '#542437', GREY: '#333', SLATE: '#53777A', GOLD: 'gold' },
         COLORS = [COLOR.YELLOW, COLOR.BRICK, COLOR.PINK, COLOR.PURPLE, COLOR.GREY],
         KEY = { SPACE: 32, LEFT: 37, UP: 38, RIGHT: 39, DOWN: 40, W: 87, A: 65, S: 83, D: 68 };
@@ -170,13 +170,13 @@
                 entity.dy = friction / 20;
             }
         } else if (wasleft) {
-            entity.ddx = entity.ddx + friction;//TODO: sliding motion
+            entity.ddx = entity.ddx + friction;
         }
 
         if (entity.right) {//move right
             entity.ddx = entity.ddx + accel;
             if (cellright && entity.dy > 0) {//sliding motion
-                entity.ddy = friction / 2;
+                entity.dy = friction / 20;
             }
         }
         else if (wasright) {
@@ -186,18 +186,26 @@
 
 
         if (entity.jump && !entity.jumping && !falling) {
-            entity.ddy = entity.ddy - entity.impulse; // an instant big force impulse
+            entity.dy = /* entity.ddy */ - entity.impulse; // an instant big force impulse
             entity.jumping = true;
         } else if (entity.jump && falling && cellright && !entity.wallJumping && entity.jumping && slidingR) {//on right wall
-            entity.ddy = /*entity.ddy*/ - entity.impulse;
-            entity.ddx = /*entity.ddx*/ - entity.impulse;
+            entity.dy = /*entity.ddy*/ - entity.impulse * 0.7;
+            entity.ddx = /*entity.ddx*/ - entity.impulse * 500;
             entity.wallJumping = true;
             entity.jumping = true;
         } else if (entity.jump && falling && cellleft  && !entity.wallJumping && entity.jumping && slidingL) {//on left wall
-            entity.ddy = /*entity.ddy*/ - entity.impulse;
-            entity.ddx = /*entity.ddx +*/ entity.impulse;
+            entity.dy = /*entity.ddy*/ - entity.impulse * 0.7;
+            entity.ddx = /*entity.ddx +*/ entity.impulse * 500;
             entity.wallJumping = true;
             entity.jumping = true;
+        }
+
+        if(falling && cellright && entity.jumping){
+            entity.wallJumping = false;
+        }
+
+        if(falling && cellleft && entity.jumping){
+            entity.wallJumping = false;
         }
 
         entity.x = entity.x + (dt * entity.dx);
