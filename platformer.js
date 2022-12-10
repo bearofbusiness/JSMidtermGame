@@ -188,16 +188,23 @@
         if (entity.jump && !entity.jumping && !falling) {
             entity.dy = /* entity.ddy */ - entity.impulse; // an instant big force impulse
             entity.jumping = true;
-        } else if (entity.jump && falling && cellright && !entity.wallJumping && entity.jumping && slidingR) {//on right wall
+            entity.justJumped = true;
+        } else if (entity.jump && falling && cellright && !entity.wallJumping && entity.jumping && slidingR && !entity.justJumped) {//on right wall
             entity.dy = /*entity.ddy*/ - entity.impulse * 0.7;
             entity.ddx = /*entity.ddx*/ - entity.impulse * 500;
             entity.wallJumping = true;
             entity.jumping = true;
-        } else if (entity.jump && falling && cellleft  && !entity.wallJumping && entity.jumping && slidingL) {//on left wall
+            entity.justJumped = true;
+        } else if (entity.jump && falling && cellleft  && !entity.wallJumping && entity.jumping && slidingL && !entity.justJumped) {//on left wall
             entity.dy = /*entity.ddy*/ - entity.impulse * 0.7;
             entity.ddx = /*entity.ddx +*/ entity.impulse * 500;
             entity.wallJumping = true;
             entity.jumping = true;
+            entity.justJumped = true;
+        }
+
+        if (!entity.jump) {
+            entity.justJumped = false;
         }
 
         if(falling && cellright && entity.jumping){
@@ -366,6 +373,7 @@
     }
 
     function setupEntity(obj) {
+        console.log(obj);
         var entity = {};
         entity.x = obj.x;
         entity.y = obj.y;
@@ -384,6 +392,7 @@
         entity.right = obj.properties.right;
         entity.start = { x: obj.x, y: obj.y }
         entity.killed = entity.collected = 0;
+        entity.justJumped = false;
         return entity;
     }
 
