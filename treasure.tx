@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<template>
+ <object name="treasure" class="treasure" width="32" height="32">
+  <properties>
+   <property name="w" value="w"/>
+  </properties>
+ </object>
+</template>

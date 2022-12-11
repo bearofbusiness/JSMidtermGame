@@ -1,70 +1,105 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.9" tiledversion="1.9.2" orientation="orthogonal" renderorder="right-down" width="64" height="48" tilewidth="32" tileheight="32" infinite="0" backgroundcolor="#000000" nextlayerid="3" nextobjectid="18">
+<!DOCTYPE map SYSTEM "http://mapeditor.org/dtd/1.0/map.dtd">
+<map version="1.0.0" orientation="orthogonal" renderorder="right-down" width="64" height="48" tilewidth="32" tileheight="32" backgroundcolor="#000000" nextobjectid="47">
  <tileset firstgid="1" name="tiles" tilewidth="32" tileheight="32" tilecount="5" columns="5">
   <image source="tiles.png" width="160" height="32"/>
  </tileset>
- <layer id="1" name="background" width="64" height="48">
+ <layer name="background" width="64" height="48">
   <data encoding="base64" compression="zlib">
-   eJztmdkKwzAMBE3b/P8vl1IKpdR4Zcm2jh3YxxzjyFJCrtbaVTxVoT/96V8X+r/zcBYJmut8/O/OIkFzHdY//SP4a3tEjyj+q8jqj84VS/8Ts68HOlcs/XfMPuv1ylr/KPSnf0R/qz4Q1d8K+tMf8T/5LiO9Lwmo/47v+BPr6an+rdcTwZP/CXb7r6rn2b2y+7/Y6nqW8nK8dVJhX9A/l7+0D3z7S/d/hn/wv/6zx2qTwb/68/fUL9A+kNUfReL/r2Yl9e8RqX+0/jbCu7+2hkZ9IIJ/b39ZEMl/1Gu050dmtMZ/Ntrzo/4Zs/KZMgwTP0+CiQx1
+   eJzt2MsOgCAMRFGC+v+/7ModoSQtDpQ7yezYnNjwsJZS6uF9Du7nPzH48ePv+9X7U0S9fvX55D3b8Mf41XOsnv9s+yR+/Pjx47fX9NapzzdPo/zqe87sOxJ+5p/9L1fw48ePH7+95lu3Y6P8OxZ/nF89x+r5Z//LFfxa/93on1H7r0b/zEy/+tuOZKZf/W1Hop5/dbz+1efbite/+nxbYf5z+0feBtn9UW/E7H5rRnZ9/6r/P9C1+wJn3hAj
   </data>
  </layer>
- <objectgroup id="2" name="Object Layer 1">
-  <object id="1" name="player" class="player" x="96" y="480" width="32" height="32"/>
-  <object id="2" name="monster" class="monster" x="64" y="192" width="32" height="32">
+ <objectgroup name="Object Layer 1">
+  <object id="22" name="player" x="128" y="1376" width="32" height="32">
    <properties>
+    <property name="test" value="yes"/>
+   </properties>
+  </object>
+  <object id="23" name="monster" x="864" y="832" width="32" height="32">
+   <properties>
+    <property name="HP" type="int" value="1"/>
     <property name="maxdx" value="10"/>
     <property name="right" value="true"/>
    </properties>
   </object>
-  <object id="3" name="monster" class="monster" x="1120" y="416" width="32" height="32">
+  <object id="24" name="monster" x="1856" y="1312" width="32" height="32">
    <properties>
-    <property name="left" value="true"/>
-    <property name="maxdx" value="4"/>
-   </properties>
-  </object>
-  <object id="4" name="monster" class="monster" x="1632" y="832" width="32" height="32">
-   <properties>
-    <property name="left" value="true"/>
-    <property name="maxdx" value="4"/>
-   </properties>
-  </object>
-  <object id="5" name="monster" class="monster" x="1056" y="1312" width="32" height="32">
-   <properties>
-    <property name="maxdx" value="6"/>
-    <property name="right" value="true"/>
-   </properties>
-  </object>
-  <object id="6" name="monster" class="monster" x="640" y="992" width="32" height="32">
-   <properties>
-    <property name="left" value="true"/>
-    <property name="maxdx" value="4"/>
-   </properties>
-  </object>
-  <object id="7" name="treasure" class="treasure" x="192" y="864" width="32" height="32"/>
-  <object id="8" name="treasure" class="treasure" x="96" y="1312" width="32" height="32"/>
-  <object id="9" name="treasure" class="treasure" x="1856" y="384" width="32" height="32"/>
-  <object id="10" name="treasure" class="treasure" x="704" y="416" width="32" height="32"/>
-  <object id="11" name="treasure" class="treasure" x="1984" y="192" width="32" height="32"/>
-  <object id="12" name="treasure" class="treasure" x="608" y="1152" width="32" height="32"/>
-  <object id="13" name="monster" class="monster" x="1216" y="736" width="32" height="32">
-   <properties>
+    <property name="HP" type="int" value="1"/>
     <property name="maxdx" value="10"/>
     <property name="right" value="true"/>
    </properties>
   </object>
-  <object id="14" name="monster" class="monster" x="1856" y="1344" width="32" height="32">
+  <object id="25" name="treasure" x="960" y="160" width="32" height="32">
    <properties>
+    <property name="w" value="w"/>
+   </properties>
+  </object>
+  <object id="26" name="treasure" x="576" y="480" width="32" height="32">
+   <properties>
+    <property name="w" value="w"/>
+   </properties>
+  </object>
+  <object id="27" name="treasure" x="1152" y="96" width="32" height="32">
+   <properties>
+    <property name="w" value="w"/>
+   </properties>
+  </object>
+  <object id="28" name="treasure" x="1088" y="832" width="32" height="32">
+   <properties>
+    <property name="w" value="w"/>
+   </properties>
+  </object>
+  <object id="29" name="treasure" x="832" y="480" width="32" height="32">
+   <properties>
+    <property name="w" value="w"/>
+   </properties>
+  </object>
+  <object id="30" name="treasure" x="1184" y="416" width="32" height="32">
+   <properties>
+    <property name="w" value="w"/>
+   </properties>
+  </object>
+  <object id="31" name="treasure" x="1984" y="256" width="32" height="32">
+   <properties>
+    <property name="w" value="w"/>
+   </properties>
+  </object>
+  <object id="32" name="treasure" x="544" y="1216" width="32" height="32">
+   <properties>
+    <property name="w" value="w"/>
+   </properties>
+  </object>
+  <object id="33" name="treasure" x="768" y="1120" width="32" height="32">
+   <properties>
+    <property name="w" value="w"/>
+   </properties>
+  </object>
+  <object id="34" name="treasure" x="1184" y="1408" width="32" height="32">
+   <properties>
+    <property name="w" value="w"/>
+   </properties>
+  </object>
+  <object id="35" name="treasure" x="1952" y="1056" width="32" height="32">
+   <properties>
+    <property name="w" value="w"/>
+   </properties>
+  </object>
+  <object id="36" name="monster" x="960" y="480" width="32" height="32">
+   <properties>
+    <property name="HP" type="int" value="1"/>
     <property name="maxdx" value="10"/>
     <property name="right" value="true"/>
    </properties>
   </object>
-  <object id="15" name="monster" class="monster" x="1024" y="192" width="32" height="32">
+  <object id="44" name="Clock" x="1824" y="1408" width="192" height="96">
    <properties>
-    <property name="left" value="true"/>
-    <property name="maxdx" value="4"/>
+    <property name="Time" type="int" value="60"/>
    </properties>
   </object>
-  <object id="16" name="treasure" class="treasure" x="32" y="192" width="32" height="32"/>
-  <object id="17" name="treasure" class="treasure" x="1984" y="1344" width="32" height="32"/>
+  <object id="45" name="Goal" x="1056" y="1024" width="32" height="32">
+   <properties>
+    <property name="h" type="int" value="0"/>
+   </properties>
+  </object>
  </objectgroup>
 </map>

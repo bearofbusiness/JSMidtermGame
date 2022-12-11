@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<template>
+ <object name="monster" class="monster" width="32" height="32">
+  <properties>
+   <property name="HP" type="int" value="1"/>
+   <property name="maxdx" value="10"/>
+   <property name="right" value="true"/>
+  </properties>
+ </object>
+</template>
