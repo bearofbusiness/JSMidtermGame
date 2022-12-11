@@ -377,48 +377,56 @@
         cells = data;
     }
 
-    function rectifyClasses(val, i, arr) 
-    {
-        console.log("rectifyClasses: " + val);
-        switch (val.name) {
-            case "none":
-                return {ItIsVeryLate:0};
-            case "GRAVITY":
-                return {Gravity:val.value};
-            case "MAXDX":
-                return {MAXDX:val.value};
-            case "MAXDY":
-                return {MAXDY:val.value};
-            case "IMPULSE":
-                return {IMPULSE:val.value};
-            case "ACCEL":
-                return {ACCEL:val.value};
-            case "MAXDY":
-                return {Gravity:val.value};
-            case "FRICTION":
-                return {FRICTION:val.value};
-            case "left":
-                return {left:val.value};
-            case "right":
-                return {right:val.value};
-            case "HP":
-                return {HP:val.value};
-            default:
-                console.log("Unknown class: " + val.name);
-                break;
+    function rectifyClasses(arr) {
+        var fixed = {};
+        for(var i = 0; i<arr.length; i++) {
+            //console.log("rectifyClasses: " + JSON.stringify(arr[i]));
+            switch (arr[i].name) {
+                case "none":
+                    fixed.ItIsVeryLate = "and i wanna kms";
+                    break;
+                case "gravity":
+                    fixed.gravity = arr[i].value;
+                    break;
+                case "maxdx":
+                    fixed.maxdx = arr[i].value;
+                    break;
+                case "maxdy":
+                    fixed.maxdy = arr[i].value;
+                    break;
+                case "impulse":
+                    fixed.impulse = arr[i].value;
+                    break;
+                case "accel":
+                    fixed.accel = arr[i].value;
+                    break;
+                case "friction":
+                    fixed.friction = arr[i].value;
+                    break;
+                case "left":
+                    fixed.left = arr[i].value;
+                    break;
+                case "right":
+                    fixed.right = arr[i].value;
+                    break;
+                case "HP":
+                    fixed.HP = arr[i].value;
+                    break;
+                default:
+                    console.log("Unknown class: " + arr[i].name);
+                    break;
+            }
         }
+        return fixed;
     }
 
     function setupEntity(obj) {
-        console.log(obj);
+        //console.log(obj);
         if(!obj.hasOwnProperty("properties")){
             obj.properties = [{name:"none", value:0}];
         }
-
-        if(obj.properties != {}){
-            console.log("obj.properties: " + obj.properties);
-            obj.properties.forEach(rectifyClasses);
-        }
+        obj.properties = rectifyClasses(obj.properties);
+        console.log("obj.properties: " + obj.properties);
         var entity = {};
         entity.x = obj.x;
         entity.y = obj.y;
@@ -452,7 +460,7 @@
         fpsmeter = new FPSMeter({ decimals: 0, graph: true, theme: 'dark', left: '5px' });
 
     function frame() {
-        console.log("framerate: " + fpsmeter.fps + " fps");
+        //console.log("framerate: " + fpsmeter.fps + " fps");
         fpsmeter.tickStart();
         now = timestamp();
         dt = dt + Math.min(1, (now - last) / 1000);
