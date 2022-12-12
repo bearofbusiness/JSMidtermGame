@@ -96,6 +96,7 @@
         updatePlayer(dt);
         updateMonsters(dt);
         checkTreasure();
+        checkGoal()
     }
 
     function updatePlayer(dt) {
@@ -130,6 +131,10 @@
             if (!t.collected && overlap(player.x, player.y, TILE, TILE, t.x, t.y, TILE, TILE))
                 collectTreasure(t);
         }
+    }
+    function checkGoal() {
+        if (overlap(player.x, player.y, TILE, TILE, goal.x, goal.y, TILE, TILE))
+            WIN = true;
     }
 
     function killMonster(monster) {
@@ -302,6 +307,7 @@
         ctx.clearRect(0, 0, width, height);
         renderMap(ctx);
         renderTreasure(ctx, frame);
+        renderGoal(ctx, frame);
         renderPlayer(ctx, dt);
         renderMonsters(ctx, dt);
     }
@@ -358,12 +364,8 @@
 
     function renderGoal(ctx, frame) {
         ctx.fillStyle = COLOR.GREEN;
-        ctx.globalAlpha = 0.25 + tweenTreasure(frame, 60);
-        var n, max, t;
-        for (n = 0, max = trewasure.length; n < max; n++) {
-            t = treasure[n];
-            ctx.fillRect(t.x, t.y + TILE / 3, TILE, TILE * 2 / 3);
-        }
+        ctx.globalAlpha = 0.25 + tweenTreasure(frame, 240);
+        ctx.fillRect(goal.x, goal.y, TILE, TILE);
         ctx.globalAlpha = 1;
     }
 
@@ -385,11 +387,12 @@
         for (n = 0; n < objects.length; n++) {
             obj = objects[n];
             entity = setupEntity(obj);
-            switch (obj.name) {
+            console.log("goal made: " + entity.name);
+            switch (entity.name) {
                 case "player": player = entity; break;
                 case "monster": monsters.push(entity); break;
                 case "treasure": treasure.push(entity); break;
-                case "goal": goal = entity; break;
+                case "Goal": goal = entity; console.log("goal made"); break;
             }
         }
 
@@ -472,6 +475,7 @@
         entity.justJumpedL = false;
         entity.justJumpedR = false;
         entity.HP = (obj.properties.HP || -1);
+        entity.name = obj.name;
         return entity;
     }
 
@@ -492,10 +496,13 @@
             dt = dt - step;
             update(step);
         }
-        render(ctx, counter, dt);
         if(WIN){
+            console.log("WIN");
+            level++;
+            startlvl();
             return;
         }
+        render(ctx, counter, dt);
         last = now;
         counter++;
         fpsmeter.tick();
@@ -504,7 +511,19 @@
 
     document.addEventListener('keydown', function (ev) { return onkey(ev, ev.keyCode, true); }, false);
     document.addEventListener('keyup', function (ev) { return onkey(ev, ev.keyCode, false); }, false);
-
+    function startlvl(){
+        get("level" + level + ".json", function (req) {
+            player = {},
+            monsters = [],
+            treasure = [],
+            cells = [],
+            goal = {};
+            setup(JSON.parse(req.responseText));
+            WIN = false;
+            frame();
+        });
+    }
+/*
     get("level" + level + ".json", function (req) {
         player = {},
         monsters = [],
@@ -514,18 +533,7 @@
         setup(JSON.parse(req.responseText));
         WIN = false;
         frame();
-    });
-
-    get("level" + level + ".json", function (req) {
-        player = {},
-        monsters = [],
-        treasure = [],
-        cells = [],
-        goal = {};
-        setup(JSON.parse(req.responseText));
-        WIN = false;
-        frame();
-    });
-
+    });*/
+    startlvl()
 })();
 
