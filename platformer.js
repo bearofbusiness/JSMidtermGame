@@ -1,3 +1,4 @@
+
 (function () { // module pattern
 
     //-------------------------------------------------------------------------
@@ -101,6 +102,7 @@
         updateMonsters(dt);
         checkTreasure();
         checkGoal()
+        checkTime();
     }
 
     function updatePlayer(dt) {
@@ -125,6 +127,12 @@
                     killPlayer(player);
                 }
             }
+        }
+    }
+
+    function checkTime(){
+        if(clock.time <= 0){
+            killPlayer(player);
         }
     }
 
@@ -341,12 +349,12 @@
 
     function renderPlayer(ctx, dt) {
         //ctx.fillStyle = COLOR.YELLOW;
-        console.log(player.dx);
+        //console.log(player.dx);
         if (player.dx != 0) {
             player.frame += player.dx/(Math.PI*256);
         }
         player.frame = player.frame % 360;
-        console.log(player.frame);
+        //console.log(player.frame);
         //ctx.fillRect(player.x + (player.dx * dt), player.y + (player.dy * dt), TILE, TILE);
         ctx.save(); // save current state
         ctx.translate(player.x + (player.dx * dt) + TILE / 2,player.y + (player.dy * dt)+ TILE / 2);
@@ -384,10 +392,12 @@
         }
     }
 
-    function renderClock(ctx, dt){
+    function renderClock(ctx, dt) {
         ctx.fillStyle = COLOR.BLACK;
-        ctx.font = '90px Arial'
-        clock.time += -dt;
+        ctx.font = '90px Arial';
+        var timee = new Date().valueOf();
+        clock.time += (clock.timel - timee)/1000;
+        clock.timel = timee
         var text = clock.time;
         text = text.toFixed(2);
         ctx.fillText(text, clock.x, clock.y + 90);
@@ -400,7 +410,7 @@
         for (n = 0, max = treasure.length; n < max; n++) {
             t = treasure[n];
             if (!t.collected)
-                ctx.fillRect(t.x, t.y + TILE / 3, TILE, TILE * 2 / 3);
+            drawFrame(ctx, (frame % (60 / 2))? 1 : 0, 7, t.x, t.y);
         }
         ctx.globalAlpha = 1;
     }
@@ -408,7 +418,7 @@
     function renderGoal(ctx, frame) {
         ctx.fillStyle = COLOR.GREEN;
         ctx.globalAlpha = 0.25 + tweenTreasure(frame, 240);
-        ctx.fillRect(goal.x, goal.y, TILE, TILE);
+        drawFrame(ctx, (frame % (60 / 2))? 1 : 0, 5, goal.x, goal.y);
         ctx.globalAlpha = 1;
     }
 
@@ -519,8 +529,9 @@
         entity.justJumpedL = false;
         entity.justJumpedR = false;
         entity.HP = (obj.properties.HP || -1);
-        entity.frame = 0;
+        entity.frame = 0;//it is realing rotation but i dont want to change it
         entity.time = (obj.properties.time || -1);
+        entity.timel = new Date().valueOf();
         return entity;
     }
 
