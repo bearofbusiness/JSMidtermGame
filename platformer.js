@@ -338,20 +338,18 @@
 
     function renderPlayer(ctx, dt) {
         //ctx.fillStyle = COLOR.YELLOW;
-        if (player.dx > 0) {
-            player.frame += 1;
-        }else if (player.dx < 0) {
-            player.frame -= 1;
-
+        console.log(player.dx);
+        if (player.dx != 0) {
+            player.frame += player.dx/(Math.PI*256);
         }
-        if (player.frame > 6) {
-            player.frame =0;
-        }else if (player.frame < 0) {
-            player.frame = 6;
-        }
-
+        player.frame = player.frame % 360;
+        console.log(player.frame);
         //ctx.fillRect(player.x + (player.dx * dt), player.y + (player.dy * dt), TILE, TILE);
-        drawFrame(ctx, player.frame, 1, player.x + (player.dx * dt), player.y + (player.dy * dt));
+        ctx.save(); // save current state
+        ctx.translate(player.x + (player.dx * dt) + TILE / 2,player.y + (player.dy * dt)+ TILE / 2);
+        ctx.rotate(player.frame); // rotate
+        drawFrame(ctx, 0, 1, -TILE / 2, -TILE / 2);
+        ctx.restore();
         var n, max;
 
         ctx.fillStyle = COLOR.GOLD;
@@ -368,8 +366,18 @@
         var n, max, monster;
         for (n = 0, max = monsters.length; n < max; n++) {
             monster = monsters[n];
-            if (!monster.dead)
-                ctx.fillRect(monster.x + (monster.dx * dt), monster.y + (monster.dy * dt), TILE, TILE);
+            if (!monster.dead){
+                if (monster.dx != 0) {
+                    monster.frame += monster.dx/(Math.PI*256);
+                }
+                monster.frame = monster.frame % 360;
+                //ctx.fillRect(player.x + (player.dx * dt), player.y + (player.dy * dt), TILE, TILE);
+                ctx.save(); // save current state
+                ctx.translate(monster.x + (monster.dx * dt) + TILE / 2,monster.y + (monster.dy * dt)+ TILE / 2);
+                ctx.rotate(monster.frame); // rotate
+                drawFrame(ctx, 0, 3, -TILE / 2, -TILE / 2);
+                ctx.restore();
+            }
         }
     }
 
