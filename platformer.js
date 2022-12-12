@@ -48,6 +48,8 @@
     //-------------------------------------------------------------------------
 
     var MAP = { tw: 64, th: 48 },
+        WIN = false,
+        level = 1,
         TILE = 32,
         METER = TILE,
         GRAVITY = 9.8 * 6, // default (exagerated) gravity
@@ -56,7 +58,7 @@
         ACCEL = 1 / 4,     // default take 1/2 second to reach maxdx (horizontal acceleration)
         FRICTION = 1 / 6,     // default take 1/6 second to stop from maxdx (horizontal friction)
         IMPULSE = 25,    // default player jump impulse
-        COLOR = { BLACK: '#000000', YELLOW: '#ECD078', BRICK: '#D95B43', PINK: '#C02942', PURPLE: '#542437', GREY: '#333', SLATE: '#53777A', GOLD: 'gold' },
+        COLOR = { BLACK: '#000000', YELLOW: '#ECD078', BRICK: '#D95B43', PINK: '#C02942', PURPLE: '#542437', GREY: '#333', SLATE: '#53777A', GOLD: 'gold', GREEN: 'green' },
         COLORS = [COLOR.YELLOW, COLOR.BRICK, COLOR.PINK, COLOR.PURPLE, COLOR.GREY],
         KEY = { SPACE: 32, LEFT: 37, UP: 38, RIGHT: 39, DOWN: 40, W: 87, A: 65, S: 83, D: 68 };
 
@@ -69,7 +71,8 @@
         player = {},
         monsters = [],
         treasure = [],
-        cells = [];
+        cells = [],
+        goal = {};
 
     var t2p = function (t) { return t * TILE; },//tile to pixel
         p2t = function (p) { return Math.floor(p / TILE); },//pixel to tile
@@ -109,10 +112,13 @@
         if (!monster.dead) {
             updateEntity(monster, dt);
             if (overlap(player.x, player.y, TILE, TILE, monster.x, monster.y, TILE, TILE)) {
-                if ((player.dy > 0) && (monster.y - player.y > TILE / 2))
+                if ((player.dy > 0) && (monster.y - player.y > TILE / 4)){
                     killMonster(monster);
-                else
+                    player.dy = -IMPULSE*25;
+                }
+                else{
                     killPlayer(player);
+                }
             }
         }
     }
@@ -168,7 +174,7 @@
 
         if (entity.left) {//move left
             entity.ddx = entity.ddx - accel;
-            if (cellleft && entity.dy > 0) {//sliding motion
+            if (cellleftex && entity.dy > 0) {//sliding motion
                 entity.dy = friction / 20;
             }
         } else if (wasleft) {
@@ -177,7 +183,7 @@
 
         if (entity.right) {//move right
             entity.ddx = entity.ddx + accel;
-            if (cellright && entity.dy > 0) {//sliding motion
+            if (cellrightex && entity.dy > 0) {//sliding motion
                 entity.dy = friction / 20;
             }
         }
@@ -201,6 +207,7 @@
         } else if (entity.jump && falling && cellleftex  && !entity.wallJumpingL && entity.jumping && slidingL && !entity.justJumped) {//on left wall
             entity.dy = /*entity.ddy*/ - entity.impulse * 0.7;
             entity.ddx = /*entity.ddx +*/ entity.impulse * 700;
+            entity.dx = /*entity.ddx +*/ entity.impulse;
             entity.wallJumpingL = true;
             entity.jumping = true;
             entity.justJumped = true;
@@ -349,6 +356,17 @@
         ctx.globalAlpha = 1;
     }
 
+    function renderGoal(ctx, frame) {
+        ctx.fillStyle = COLOR.GREEN;
+        ctx.globalAlpha = 0.25 + tweenTreasure(frame, 60);
+        var n, max, t;
+        for (n = 0, max = trewasure.length; n < max; n++) {
+            t = treasure[n];
+            ctx.fillRect(t.x, t.y + TILE / 3, TILE, TILE * 2 / 3);
+        }
+        ctx.globalAlpha = 1;
+    }
+
     function tweenTreasure(frame, duration) {
         var half = duration / 2
         pulse = frame % duration;
@@ -371,6 +389,7 @@
                 case "player": player = entity; break;
                 case "monster": monsters.push(entity); break;
                 case "treasure": treasure.push(entity); break;
+                case "goal": goal = entity; break;
             }
         }
 
@@ -412,6 +431,9 @@
                 case "HP":
                     fixed.HP = arr[i].value;
                     break;
+                case "Time":
+                    fixed.time = arr[i].value;
+                    break;
                 default:
                     console.log("Unknown class: " + arr[i].name);
                     break;
@@ -441,6 +463,8 @@
         entity.monster = obj.name == "monster";
         entity.player = obj.name == "player";
         entity.treasure = obj.name == "treasure";
+        entity.goal = obj.name == "goal";
+        entity.clock = obj.name == "clock";
         entity.left = obj.properties.left;
         entity.right = obj.properties.right;
         entity.start = { x: obj.x, y: obj.y }
@@ -469,6 +493,9 @@
             update(step);
         }
         render(ctx, counter, dt);
+        if(WIN){
+            return;
+        }
         last = now;
         counter++;
         fpsmeter.tick();
@@ -478,8 +505,25 @@
     document.addEventListener('keydown', function (ev) { return onkey(ev, ev.keyCode, true); }, false);
     document.addEventListener('keyup', function (ev) { return onkey(ev, ev.keyCode, false); }, false);
 
-    get("level1.json", function (req) {
+    get("level" + level + ".json", function (req) {
+        player = {},
+        monsters = [],
+        treasure = [],
+        cells = [],
+        goal = {};
         setup(JSON.parse(req.responseText));
+        WIN = false;
+        frame();
+    });
+
+    get("level" + level + ".json", function (req) {
+        player = {},
+        monsters = [],
+        treasure = [],
+        cells = [],
+        goal = {};
+        setup(JSON.parse(req.responseText));
+        WIN = false;
         frame();
     });
 
