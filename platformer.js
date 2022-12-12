@@ -74,7 +74,8 @@
         monsters = [],
         treasure = [],
         cells = [],
-        goal = {};
+        goal = {},
+        clock = {};
 
     img.src = './tiles.png';
     var t2p = function (t) { return t * TILE; },//tile to pixel
@@ -154,6 +155,7 @@
 
     function collectTreasure(t) {
         player.collected++;
+        clock.time += 1;
         t.collected = true;
     }
 
@@ -314,6 +316,7 @@
         renderGoal(ctx, frame);
         renderPlayer(ctx, dt);
         renderMonsters(ctx, dt);
+        renderClock(ctx, dt);
     }
 
     function renderMap(ctx) {
@@ -381,6 +384,15 @@
         }
     }
 
+    function renderClock(ctx, dt){
+        ctx.fillStyle = COLOR.BLACK;
+        ctx.font = '90px Arial'
+        clock.time += -dt;
+        var text = clock.time;
+        text = text.toFixed(2);
+        ctx.fillText(text, clock.x, clock.y + 90);
+    }
+
     function renderTreasure(ctx, frame) {
         ctx.fillStyle = COLOR.GOLD;
         ctx.globalAlpha = 0.25 + tweenTreasure(frame, 60);
@@ -423,6 +435,7 @@
                 case "monster": monsters.push(entity); break;
                 case "treasure": treasure.push(entity); break;
                 case "goal": goal = entity; break;
+                case "clock": clock = entity; break;
             }
         }
 
@@ -507,6 +520,7 @@
         entity.justJumpedR = false;
         entity.HP = (obj.properties.HP || -1);
         entity.frame = 0;
+        entity.time = (obj.properties.time || -1);
         return entity;
     }
 
@@ -552,6 +566,7 @@
             treasure = [],
             cells = [],
             goal = {};
+            clock = {};
             setup(JSON.parse(req.responseText));
             WIN = false;
             if(first){
