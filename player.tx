@@ -2,7 +2,6 @@
 <template>
  <object name="player" class="player" width="32" height="32">
   <properties>
-   <property name="test" value="yes"/>
   </properties>
  </object>
 </template>

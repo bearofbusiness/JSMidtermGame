@@ -58,7 +58,7 @@
         ACCEL = 1 / 4,     // default take 1/2 second to reach maxdx (horizontal acceleration)
         FRICTION = 1 / 6,     // default take 1/6 second to stop from maxdx (horizontal friction)
         IMPULSE = 25,    // default player jump impulse
-        COLOR = { BLACK: '#000000', YELLOW: '#ECD078', BRICK: '#D95B43', PINK: '#C02942', PURPLE: '#542437', GREY: '#333', SLATE: '#53777A', GOLD: 'gold', GREEN: 'green' },
+        COLOR = { BLACK: '#000000', YELLOW: '#ECD078', BRICK: '#D95B43', PINK: '#C02942', PURPLE: '#542437', GREY: '#333', SLATE: '#53777A', GOLD: 'gold', GREEN: 'green', RED:'red', WHITE: 'white', BLUE: 'blue' },
         COLORS = [COLOR.YELLOW, COLOR.BRICK, COLOR.PINK, COLOR.PURPLE, COLOR.GREY],
         KEY = { SPACE: 32, LEFT: 37, UP: 38, RIGHT: 39, DOWN: 40, W: 87, A: 65, S: 83, D: 68 };
 
@@ -68,12 +68,15 @@
         ctx = canvas.getContext('2d'),
         width = canvas.width = MAP.tw * TILE,
         height = canvas.height = MAP.th * TILE,
+        img = new Image(),
+        
         player = {},
         monsters = [],
         treasure = [],
         cells = [],
         goal = {};
 
+    img.src = './tiles.png';
     var t2p = function (t) { return t * TILE; },//tile to pixel
         p2t = function (p) { return Math.floor(p / TILE); },//pixel to tile
         ccell = function (x, y) { return tcell(p2t(x), p2t(y)); },//pixel to cell
@@ -146,6 +149,7 @@
         player.x = player.start.x;
         player.y = player.start.y;
         player.dx = player.dy = 0;
+        startlvl();
     }
 
     function collectTreasure(t) {
@@ -318,11 +322,18 @@
             for (x = 0; x < MAP.tw; x++) {
                 cell = tcell(x, y);
                 if (cell) {
-                    ctx.fillStyle = COLORS[cell - 1];
-                    ctx.fillRect(x * TILE, y * TILE, TILE, TILE);
+                    //ctx.fillStyle = COLORS[cell - 1];
+                    //ctx.fillRect(x * TILE, y * TILE, TILE, TILE);
+                    drawFrame(cell - 1, 0, x * TILE, y * TILE);
                 }
             }
         }
+    }
+    
+    function drawFrame(frameX, frameY, canvasX, canvasY) {
+        ctx.drawImage(img,
+                      frameX * TILE, frameY * TILE, TILE, TILE,
+                      canvasX, canvasY, TILE, TILE);
     }
 
     function renderPlayer(ctx, dt) {
@@ -341,7 +352,7 @@
     }
 
     function renderMonsters(ctx, dt) {
-        ctx.fillStyle = COLOR.SLATE;
+        ctx.fillStyle = COLOR.RED;
         var n, max, monster;
         for (n = 0, max = monsters.length; n < max; n++) {
             monster = monsters[n];
@@ -387,12 +398,11 @@
         for (n = 0; n < objects.length; n++) {
             obj = objects[n];
             entity = setupEntity(obj);
-            console.log("goal made: " + entity.name);
             switch (entity.name) {
                 case "player": player = entity; break;
                 case "monster": monsters.push(entity); break;
                 case "treasure": treasure.push(entity); break;
-                case "Goal": goal = entity; console.log("goal made"); break;
+                case "goal": goal = entity; break;
             }
         }
 
@@ -434,7 +444,7 @@
                 case "HP":
                     fixed.HP = arr[i].value;
                     break;
-                case "Time":
+                case "time":
                     fixed.time = arr[i].value;
                     break;
                 default:
@@ -457,6 +467,7 @@
         entity.y = obj.y;
         entity.dx = 0;
         entity.dy = 0;
+        entity.name = obj.name;
         entity.gravity = METER * (obj.properties.gravity || GRAVITY);
         entity.maxdx = METER * (obj.properties.maxdx || MAXDX);
         entity.maxdy = METER * (obj.properties.maxdy || MAXDY);
@@ -470,12 +481,11 @@
         entity.clock = obj.name == "clock";
         entity.left = obj.properties.left;
         entity.right = obj.properties.right;
-        entity.start = { x: obj.x, y: obj.y }
+        entity.start = { x: obj.x, y: obj.y };
         entity.killed = entity.collected = 0;
         entity.justJumpedL = false;
         entity.justJumpedR = false;
         entity.HP = (obj.properties.HP || -1);
-        entity.name = obj.name;
         return entity;
     }
 
@@ -511,6 +521,7 @@
 
     document.addEventListener('keydown', function (ev) { return onkey(ev, ev.keyCode, true); }, false);
     document.addEventListener('keyup', function (ev) { return onkey(ev, ev.keyCode, false); }, false);
+    
     function startlvl(){
         get("level" + level + ".json", function (req) {
             player = {},

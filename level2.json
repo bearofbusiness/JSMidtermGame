@@ -268,10 +268,10 @@
                  "class":"",
                  "height":96,
                  "id":33,
-                 "name":"Clock",
+                 "name":"clock",
                  "properties":[
                         {
-                         "name":"Time",
+                         "name":"time",
                          "type":"int",
                          "value":60
                         }],
@@ -285,7 +285,7 @@
                  "class":"",
                  "height":32,
                  "id":34,
-                 "name":"Goal",
+                 "name":"goal",
                  "rotation":0,
                  "visible":true,
                  "width":32,
