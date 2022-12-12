@@ -212,7 +212,7 @@
             entity.wallJumpingR = true;
             entity.jumping = true;
             entity.justJumped = true;
-            console.log("wall jump right");
+            //console.log("wall jump right");
         } else if (entity.jump && falling && cellleftex  && !entity.wallJumpingL && entity.jumping && slidingL && !entity.justJumped) {//on left wall
             entity.dy = /*entity.ddy*/ - entity.impulse * 0.7;
             entity.ddx = /*entity.ddx +*/ entity.impulse * 700;
@@ -220,7 +220,7 @@
             entity.wallJumpingL = true;
             entity.jumping = true;
             entity.justJumped = true;
-            console.log("wall jump left");
+            //console.log("wall jump left");
         }
 
         if (!entity.jump) {
@@ -324,22 +324,34 @@
                 if (cell) {
                     //ctx.fillStyle = COLORS[cell - 1];
                     //ctx.fillRect(x * TILE, y * TILE, TILE, TILE);
-                    drawFrame(cell - 1, 0, x * TILE, y * TILE);
+                    drawFrame(ctx, cell - 1, 0, x * TILE, y * TILE);
                 }
             }
         }
     }
     
-    function drawFrame(frameX, frameY, canvasX, canvasY) {
+    function drawFrame(ctx, frameX, frameY, canvasX, canvasY) {
         ctx.drawImage(img,
                       frameX * TILE, frameY * TILE, TILE, TILE,
                       canvasX, canvasY, TILE, TILE);
     }
 
     function renderPlayer(ctx, dt) {
-        ctx.fillStyle = COLOR.YELLOW;
-        ctx.fillRect(player.x + (player.dx * dt), player.y + (player.dy * dt), TILE, TILE);
+        //ctx.fillStyle = COLOR.YELLOW;
+        if (player.dx > 0) {
+            player.frame += 1;
+        }else if (player.dx < 0) {
+            player.frame -= 1;
 
+        }
+        if (player.frame > 6) {
+            player.frame =0;
+        }else if (player.frame < 0) {
+            player.frame = 6;
+        }
+
+        //ctx.fillRect(player.x + (player.dx * dt), player.y + (player.dy * dt), TILE, TILE);
+        drawFrame(ctx, player.frame, 1, player.x + (player.dx * dt), player.y + (player.dy * dt));
         var n, max;
 
         ctx.fillStyle = COLOR.GOLD;
@@ -486,6 +498,7 @@
         entity.justJumpedL = false;
         entity.justJumpedR = false;
         entity.HP = (obj.properties.HP || -1);
+        entity.frame = 0;
         return entity;
     }
 
@@ -509,21 +522,23 @@
         if(WIN){
             console.log("WIN");
             level++;
-            startlvl();
-            return;
+            startlvl(false);
+            //return;
         }
         render(ctx, counter, dt);
         last = now;
         counter++;
         fpsmeter.tick();
+        
         requestAnimationFrame(frame, canvas);
     }
 
     document.addEventListener('keydown', function (ev) { return onkey(ev, ev.keyCode, true); }, false);
     document.addEventListener('keyup', function (ev) { return onkey(ev, ev.keyCode, false); }, false);
     
-    function startlvl(){
+    function startlvl(first){
         get("level" + level + ".json", function (req) {
+            fpsmeter = new FPSMeter({ decimals: 0, graph: true, theme: 'dark', left: '5px' });
             player = {},
             monsters = [],
             treasure = [],
@@ -531,20 +546,12 @@
             goal = {};
             setup(JSON.parse(req.responseText));
             WIN = false;
-            frame();
+            if(first){
+                frame();
+            }
         });
     }
-/*
-    get("level" + level + ".json", function (req) {
-        player = {},
-        monsters = [],
-        treasure = [],
-        cells = [],
-        goal = {};
-        setup(JSON.parse(req.responseText));
-        WIN = false;
-        frame();
-    });*/
-    startlvl()
+
+    startlvl(true)
 })();
 
