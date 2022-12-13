@@ -319,11 +319,11 @@
 
     function render(ctx, frame, dt) {
         ctx.clearRect(0, 0, width, height);
-        renderMap(ctx);
         renderTreasure(ctx, frame);
         renderGoal(ctx, frame);
         renderPlayer(ctx, dt);
         renderMonsters(ctx, dt);
+        renderMap(ctx);
         renderClock(ctx, dt);
     }
 
@@ -361,6 +361,7 @@
         ctx.rotate(player.frame); // rotate
         drawFrame(ctx, 0, 1, -TILE / 2, -TILE / 2);
         ctx.restore();
+        /* 
         var n, max;
 
         ctx.fillStyle = COLOR.GOLD;
@@ -369,7 +370,7 @@
 
         ctx.fillStyle = COLOR.SLATE;
         for (n = 0, max = player.killed; n < max; n++)
-            ctx.fillRect(t2p(2 + n), t2p(3), TILE / 2, TILE / 2);
+            ctx.fillRect(t2p(2 + n), t2p(3), TILE / 2, TILE / 2); */
     }
 
     function renderMonsters(ctx, dt) {
@@ -456,7 +457,7 @@
         var fixed = {};
         for(var i = 0; i<arr.length; i++) {
             //console.log("rectifyClasses: " + JSON.stringify(arr[i]));
-            switch (arr[i].name) {
+            /* switch (arr[i].name) {
                 case "none":
                     fixed.ItIsVeryLate = "and i wanna kms";
                     break;
@@ -492,7 +493,8 @@
                     break;
                 default:
                     console.log("Unknown class: " + arr[i].name);
-                    break;
+                    break; */
+                eval("fixed." + arr[i].name + " = " + arr[i].value);
             }
         }
         return fixed;
@@ -579,6 +581,7 @@
             goal = {};
             clock = {};
             setup(JSON.parse(req.responseText));
+
             WIN = false;
             if(first){
                 frame();
