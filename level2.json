@@ -265,19 +265,8 @@
                  "y":480
                 }, 
                 {
-                 "class":"",
-                 "height":96,
                  "id":33,
-                 "name":"clock",
-                 "properties":[
-                        {
-                         "name":"time",
-                         "type":"int",
-                         "value":60
-                        }],
-                 "rotation":0,
-                 "visible":true,
-                 "width":192,
+                 "template":"clock.tx",
                  "x":1824,
                  "y":1408
                 }, 
@@ -362,6 +351,28 @@
                  "width":32,
                  "x":1216,
                  "y":1088
+                }, 
+                {
+                 "class":"",
+                 "height":128,
+                 "id":40,
+                 "name":"text",
+                 "properties":[
+                        {
+                         "name":"font",
+                         "type":"string",
+                         "value":"90px Arial LightGray"
+                        }, 
+                        {
+                         "name":"text",
+                         "type":"string",
+                         "value":"Level 2"
+                        }],
+                 "rotation":0,
+                 "visible":true,
+                 "width":224,
+                 "x":64,
+                 "y":352
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -370,7 +381,7 @@
          "y":0
         }],
  "nextlayerid":3,
- "nextobjectid":40,
+ "nextobjectid":45,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.9.2",

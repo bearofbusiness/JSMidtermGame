@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<template>
+ <object name="clock" width="192" height="96">
+  <properties>
+   <property name="music" value="Techno_Babel_2022-12-12_20_01_55.mp3"/>
+   <property name="time" type="int" value="60"/>
+  </properties>
+ </object>
+</template>

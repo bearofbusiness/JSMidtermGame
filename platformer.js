@@ -76,7 +76,8 @@
         treasure = [],
         cells = [],
         goal = {},
-        clock = {};
+        clock = {},
+        text = [];
 
     img.src = './tiles.png';
     var t2p = function (t) { return t * TILE; },//tile to pixel
@@ -325,6 +326,7 @@
         renderMonsters(ctx, dt);
         renderMap(ctx);
         renderClock(ctx, dt);
+        renderText(ctx, dt)
     }
 
     function renderMap(ctx) {
@@ -404,6 +406,17 @@
         ctx.fillText(text, clock.x, clock.y + 90);
     }
 
+    function renderText(ctx, dt) {
+        ctx.fillStyle = "#928E8E";
+        ctx.font = '90px Arial LightGray';
+        var n, max, t;
+        for (n = 0, max = text.length; n < max; n++) {
+            console.log(text[n].text);
+            t = text[n];
+            ctx.fillText(t.text, t.x, t.y + 90);
+        }
+    }
+
     function renderTreasure(ctx, frame) {
         ctx.fillStyle = COLOR.GOLD;
         ctx.globalAlpha = 0.25 + tweenTreasure(frame, 60);
@@ -447,6 +460,7 @@
                 case "treasure": treasure.push(entity); break;
                 case "goal": goal = entity; break;
                 case "clock": clock = entity; break;
+                case "text": text += entity; break;
             }
         }
 
@@ -456,8 +470,8 @@
     function rectifyClasses(arr) {
         var fixed = {};
         for(var i = 0; i<arr.length; i++) {
-            //console.log("rectifyClasses: " + JSON.stringify(arr[i]));
-            /* switch (arr[i].name) {
+            //eval("fixed." + arr[i].name) = arr[i].value;            //console.log("rectifyClasses: " + JSON.stringify(arr[i]));
+            switch (arr[i].name) {
                 case "none":
                     fixed.ItIsVeryLate = "and i wanna kms";
                     break;
@@ -491,11 +505,18 @@
                 case "time":
                     fixed.time = arr[i].value;
                     break;
+                case "text":
+                    fixed.text = arr[i].value;
+                    break;
+                case "font":
+                    fixed.font = arr[i].value;
+                    break;
                 default:
                     console.log("Unknown class: " + arr[i].name);
-                    break; */
-                eval("fixed." + arr[i].name + " = " + arr[i].value);
+                    break;
+                //eval("fixed." + arr[i].name + " = " + arr[i].value);
             }
+
         }
         return fixed;
     }
@@ -506,7 +527,7 @@
             obj.properties = [{name:"none", value:0}];
         }
         obj.properties = rectifyClasses(obj.properties);
-        console.log("obj.properties: " + obj.properties);
+        //console.log("obj.properties: " + obj.properties);
         var entity = {};
         entity.x = obj.x;
         entity.y = obj.y;
@@ -534,6 +555,8 @@
         entity.frame = 0;//it is realing rotation but i dont want to change it
         entity.time = (obj.properties.time || -1);
         entity.timel = new Date().valueOf();
+        entity.text = (obj.properties.text || "");
+        entity.font = (obj.properties.font || "90px Arial LightGray");
         return entity;
     }
 
@@ -580,6 +603,7 @@
             cells = [],
             goal = {};
             clock = {};
+            text = [];
             setup(JSON.parse(req.responseText));
 
             WIN = false;
