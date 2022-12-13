@@ -393,8 +393,8 @@
     }
 
     function renderClock(ctx, dt) {
-        ctx.fillStyle = COLOR.BLACK;
-        ctx.font = '90px Arial';
+        ctx.fillStyle = "#928E8E";
+        ctx.font = '90px Arial LightGray';
         var timee = new Date().valueOf();
         clock.time += (clock.timel - timee)/1000;
         clock.timel = timee
@@ -417,7 +417,7 @@
 
     function renderGoal(ctx, frame) {
         ctx.fillStyle = COLOR.GREEN;
-        ctx.globalAlpha = 0.25 + tweenTreasure(frame, 240);
+        ctx.globalAlpha = 0.25 + tweenTreasure(frame, 240*2);
         drawFrame(ctx, (frame % (60 / 2))? 1 : 0, 5, goal.x, goal.y);
         ctx.globalAlpha = 1;
     }
