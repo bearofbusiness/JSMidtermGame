@@ -97,7 +97,7 @@
             case KEY.A: player.left = down; ev.preventDefault(); return false;
             case KEY.D: player.right = down; ev.preventDefault(); return false;
             case KEY.SPACE: player.jump = down; ev.preventDefault(); return false;
-            //case KEY.BackSlash: if(!levelplus && !down){levelplus = true; WIN=true} ev.preventDefault(); return false;
+            case KEY.BackSlash: if(!levelplus && !down){levelplus = true; WIN=true} ev.preventDefault(); return false;
         }
     }
 
@@ -879,7 +879,9 @@
     document.addEventListener('keyup', function (ev) { return onkey(ev, ev.keyCode, false); }, false);
     
     function startlvl(first){
+        console.log("level: " + level);
         get("level" + level + ".json", function (req) {
+            console.log("2level: " + level);
             level++;
             fpsmeter = new FPSMeter({ decimals: 0, graph: true, theme: 'dark', left: '5px' });
             player = {},
