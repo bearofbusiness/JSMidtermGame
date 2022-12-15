@@ -201,8 +201,12 @@
         }
     }
     function checkGoal() {
-        if (overlap(player.x, player.y, TILE, TILE, goal.x, goal.y, TILE, TILE) && !WIN)
-            WIN = true;
+        if (overlap(player.x, player.y, TILE, TILE, goal.x, goal.y, TILE, TILE) && goal.touching){
+            WIN = true;goal.touching = true;
+        }
+        else{
+            goal.touching = false;
+        }
     }
 
     function killMonster(monster) {
@@ -841,6 +845,7 @@
         entity.clockrunning = true;
         entity.playing = false;
         entity.audio;
+        entity.touching = false;
         //console.log("entity.font: " + entity.font);
         return entity;
     }
