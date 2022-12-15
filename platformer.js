@@ -550,6 +550,7 @@
                 ctx.fillStyle = "white";
                 ctx.font = "bold 120px Arial";
                 ctx.fillText("You Win", 500, 500);
+                clock.clockrunning = false;
             }   
         }
     }
