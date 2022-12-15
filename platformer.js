@@ -201,7 +201,7 @@
         }
     }
     function checkGoal() {
-        if (overlap(player.x, player.y, TILE, TILE, goal.x, goal.y, TILE, TILE) && goal.touching){
+        if (overlap(player.x, player.y, TILE, TILE, goal.x, goal.y, TILE, TILE) && !goal.touching){
             WIN = true;goal.touching = true;
         }
         else{
