@@ -293,6 +293,11 @@
                  "name":"clock",
                  "properties":[
                         {
+                         "name":"music",
+                         "type":"string",
+                         "value":"Techno_Babel_2022-12-12_20_01_55.mp3"
+                        }, 
+                        {
                          "name":"time",
                          "type":"int",
                          "value":25
@@ -345,22 +350,27 @@
                  "class":"",
                  "height":128,
                  "id":36,
-                 "name":"text",
+                 "name":"textBox",
                  "properties":[
+                        {
+                         "name":"color",
+                         "type":"string",
+                         "value":"white"
+                        }, 
                         {
                          "name":"font",
                          "type":"string",
-                         "value":"90px Arial LightGray"
+                         "value":"90px Arial Black"
                         }, 
                         {
-                         "name":"text",
+                         "name":"textco",
                          "type":"string",
                          "value":"Level 1"
                         }],
                  "rotation":0,
                  "visible":true,
                  "width":224,
-                 "x":544,
+                 "x":576,
                  "y":512
                 }],
          "opacity":1,

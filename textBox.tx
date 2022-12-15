@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<template>
+ <object name="textBox" width="224" height="128">
+  <properties>
+   <property name="color" value="#928E8E"/>
+   <property name="font" value="90px Arial LightGray"/>
+   <property name="textco" value="Level 2"/>
+  </properties>
+ </object>
+</template>

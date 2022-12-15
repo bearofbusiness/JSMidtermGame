@@ -265,8 +265,24 @@
                  "y":480
                 }, 
                 {
+                 "class":"",
+                 "height":96,
                  "id":33,
-                 "template":"clock.tx",
+                 "name":"clock",
+                 "properties":[
+                        {
+                         "name":"music",
+                         "type":"string",
+                         "value":"Techno_Babel_2022-12-12_20_01_55.mp3"
+                        }, 
+                        {
+                         "name":"time",
+                         "type":"int",
+                         "value":60
+                        }],
+                 "rotation":0,
+                 "visible":true,
+                 "width":192,
                  "x":1824,
                  "y":1408
                 }, 
@@ -356,15 +372,20 @@
                  "class":"",
                  "height":128,
                  "id":40,
-                 "name":"text",
+                 "name":"textBox",
                  "properties":[
+                        {
+                         "name":"color",
+                         "type":"string",
+                         "value":"#928E8E"
+                        }, 
                         {
                          "name":"font",
                          "type":"string",
                          "value":"90px Arial LightGray"
                         }, 
                         {
-                         "name":"text",
+                         "name":"textco",
                          "type":"string",
                          "value":"Level 2"
                         }],
