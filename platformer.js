@@ -864,7 +864,6 @@
         if(WIN){
             //console.log("WIN");
             clock.audio.pause();
-            level++;
             startlvl(false);
             //return;
         }
@@ -881,6 +880,7 @@
     
     function startlvl(first){
         get("level" + level + ".json", function (req) {
+            level++;
             fpsmeter = new FPSMeter({ decimals: 0, graph: true, theme: 'dark', left: '5px' });
             player = {},
             monsters = [],
