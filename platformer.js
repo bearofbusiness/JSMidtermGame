@@ -97,7 +97,7 @@
             case KEY.A: player.left = down; ev.preventDefault(); return false;
             case KEY.D: player.right = down; ev.preventDefault(); return false;
             case KEY.SPACE: player.jump = down; ev.preventDefault(); return false;
-            case KEY.BackSlash: if(!levelplus && !down){levelplus = true; WIN=true} ev.preventDefault(); return false;
+            //case KEY.BackSlash: if(!levelplus && !down){levelplus = true; WIN=true} ev.preventDefault(); return false;
         }
     }
 
