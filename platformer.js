@@ -202,6 +202,8 @@
     }
     function checkGoal() {
         if (overlap(player.x, player.y, TILE, TILE, goal.x, goal.y, TILE, TILE) && !goal.touching){
+            player.y = 10000;
+            level++;
             WIN = true;goal.touching = true;
         }
         else{
@@ -557,6 +559,7 @@
                 clock.clockrunning = false;
             }   
         }
+        console.log(level)
     }
 
     function renderMap(ctx) {
@@ -888,7 +891,7 @@
         console.log("level: " + level);
         get("level" + level + ".json", function (req) {
             console.log("2level: " + level);
-            level++;
+            //level++;
             fpsmeter = new FPSMeter({ decimals: 0, graph: true, theme: 'dark', left: '5px' });
             player = {},
             monsters = [],
