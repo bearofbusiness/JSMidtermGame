@@ -5,4 +5,4 @@ https://codeincomplete.com/articles/tiny-platformer/
 ### Music By:
 Chase8080 (thx bro)
 #### Link to Game:
-https://bearofbusines.me/JSMidtermGame/
+https://ic.bearof.business
